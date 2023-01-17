@@ -1,0 +1,43 @@
+riptide_1:
+  controller_manager:
+    ros__parameters:
+      update_rate: 100  # Hz
+
+      joint_state_broadcaster:
+        type: joint_state_broadcaster/JointStateBroadcaster
+
+      imu_sensor_broadcaster:
+        type: imu_sensor_broadcaster/IMUSensorBroadcaster
+
+      state_estimator:
+        type: riptide_controllers/StateEstimator
+
+      echosounder_controller:
+        type: riptide_controllers/RiptideEchoSounder
+
+      riptide_controller:
+        type: riptide_controllers/RiptideController
+
+riptide_1:
+  imu_sensor_broadcaster:
+    ros__parameters:
+      sensor_name: imu
+      frame_id: base_link
+
+  state_estimator:
+    ros__parameters:
+      sensor_name: imu
+      frame_id: base_link
+      orientation: [0., 0., 0., 1.]
+
+  echosounder_controller:
+    ros__parameters:
+      echosounder_name: echosounder
+
+  riptide_controller:
+    ros__parameters:
+      imu_name: imu
+      thruster_joint: thruster
+      d_joint: d_fin
+      p_joint: p_fin
+      s_joint: s_fin

@@ -1,0 +1,9 @@
+riptide_1:
+  riptide_spawner:
+    ros__parameters:
+      riptide_name: "riptide_1"
+      position: [0., 0., -3.]
+      orientation: [0., 0., 0., 1.]
+      depth: 6.
+      walls_x: [-10., 10., 10., 10.]
+      walls_y: [-6., -6., 6., -6.]

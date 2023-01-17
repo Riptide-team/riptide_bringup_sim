@@ -1,0 +1,12 @@
+/**:
+  ros__parameters:
+    linear:
+      x:
+        max_velocity: 1.
+        min_velocity: -1.
+        throttle_percent: 0.75
+    angular:
+      z:
+        max_velocity: 1.5
+        min_velocity: -1.5
+        throttle_percent: 0.75
