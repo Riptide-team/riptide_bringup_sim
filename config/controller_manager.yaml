@@ -1,0 +1,77 @@
+riptide_1:
+  controller_manager:
+    ros__parameters:
+      update_rate: 25  # Hz
+
+      joint_state_broadcaster:
+        type: joint_state_broadcaster/JointStateBroadcaster
+
+      imu_sensor_broadcaster:
+        type: imu_sensor_broadcaster/IMUSensorBroadcaster
+
+      pressure_broadcaster:
+        type: riptide_broadcasters/PressureBroadcaster
+
+      imu_broadcaster:
+        type: riptide_broadcasters/ImuBroadcaster
+      
+      tail_broadcaster:
+        type: riptide_broadcasters/TailBroadcaster
+
+      actuators_reset:
+        type: riptide_controllers/ActuatorsReset
+
+      depth_controller:
+        type: riptide_controllers/DepthController
+
+      riptide_controller:
+        type: riptide_controllers/RiptideController
+
+riptide_1:
+  depth_controller:
+    ros__parameters:
+      thruster_joint: thruster
+      p_joint: p_fin
+      s_joint: s_fin
+      pressure_name: pressure
+      imu_name: imu
+      thruster_velocity: 100.
+      K_inf: 0.52
+      r: 0.5
+      K_fin: 0.1
+
+riptide_1:
+  pressure_broadcaster:
+    ros__parameters:
+      sensor_name: pressure
+
+riptide_1:
+  imu_broadcaster:
+    ros__parameters:
+      sensor_name: imu
+
+riptide_1:
+  tail_broadcaster:
+    ros__parameters:
+      thruster_joint: thruster
+      d_joint: d_fin
+      p_joint: p_fin
+      s_joint: s_fin
+
+riptide_1:
+  riptide_controller:
+    ros__parameters:
+      thruster_joint: thruster
+      d_joint: d_fin
+      p_joint: p_fin
+      s_joint: s_fin
+      pressure_name: pressure
+      imu_name: imu
+      K_fin: .5
+      r_fin: .2
+
+riptide_1:
+  imu_sensor_broadcaster:
+    ros__parameters:
+      frame_id: riptide_1
+      sensor_name: riptide_1_imu

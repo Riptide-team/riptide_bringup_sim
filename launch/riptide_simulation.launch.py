@@ -74,7 +74,7 @@ def generate_launch_description():
     ld.add_action(
         DeclareLaunchArgument(
             "runtime_config_package",
-            default_value="riptide_bringup",
+            default_value="riptide_bringup_sim",
             description='Package with the controller\'s configuration in "config" folder. \
                 Usually the argument is not set, it enables use of a custom setup.',
         )
@@ -82,7 +82,7 @@ def generate_launch_description():
     ld.add_action(
         DeclareLaunchArgument(
             "description_package",
-            default_value="riptide_description",
+            default_value="riptide_description_sim",
             description="Description package with robot URDF/xacro files. Usually the argument \
                 is not set, it enables use of a custom description.",
         )
@@ -128,35 +128,35 @@ def generate_launch_description():
         )
 
         # Spawn orthogonal controller
-        ld.add_action(
-            Node(
-                package="riptide_navigation",
-                executable="orthogonal_controller",
-                namespace=name,
-                output="both"
-            )
-        )
+        # ld.add_action(
+        #     Node(
+        #         package="riptide_navigation",
+        #         executable="orthogonal_controller",
+        #         namespace=name,
+        #         output="both"
+        #     )
+        # )
 
         # Spawn stable cycles
-        ld.add_action(
-            Node(
-                package="riptide_navigation",
-                executable="stable_cycles",
-                namespace=name,
-                output="both"
-            )
-        )
+        # ld.add_action(
+        #     Node(
+        #         package="riptide_navigation",
+        #         executable="stable_cycles",
+        #         namespace=name,
+        #         output="both"
+        #     )
+        # )
 
         # Riptide teleop
-        ld.add_action(
-            IncludeLaunchDescription(
-                PythonLaunchDescriptionSource([ThisLaunchFileDir(), "/riptide_teleop.launch.py"]),
-                launch_arguments={
-                    "cmd_vel": "/" + name + "/riptide_controller/cmd_vel"
-                }.items(),
-                condition=IfCondition(launch_teleop)
-            )
-        )
+        # ld.add_action(
+        #     IncludeLaunchDescription(
+        #         PythonLaunchDescriptionSource([ThisLaunchFileDir(), "/riptide_teleop.launch.py"]),
+        #         launch_arguments={
+        #             "cmd_vel": "/" + name + "/riptide_controller/cmd_vel"
+        #         }.items(),
+        #         condition=IfCondition(launch_teleop)
+        #     )
+        # )
 
     ld.add_action(OpaqueFunction(function=rviz_simulation, args=[riptides]))
 

@@ -21,8 +21,11 @@ def riptide_spawner(context: LaunchContext):
     
     xacro_path = PathJoinSubstitution([FindPackageShare(description_package), "urdf", description_file]).perform(context)
 
+    # getting prefix
+    prefix = context.perform_substitution(namespace)
+
     # Getting robot's urdf from xacro
-    xacro_description = xacro.process_file(xacro_path, mappings={"prefix": context.perform_substitution(namespace)})
+    xacro_description = xacro.process_file(xacro_path, mappings={"prefix": prefix})
     robot_description = {"robot_description": xacro_description.toxml()}
 
     # Getting the simulation configuration file path
@@ -47,39 +50,39 @@ def riptide_spawner(context: LaunchContext):
         output="both",
     )
 
-    # Ros2 control node
-    riptide_controller_spawner = Node(
+    # Pressure Broadcaster
+    pressure_broadcaster = Node(
         package="controller_manager",
         executable="spawner",
-        namespace=namespace,
-        arguments=["riptide_controller", "--controller-manager", "/" + context.perform_substitution(namespace) + "/controller_manager"],
+        namespace=prefix,
+        arguments=["pressure_broadcaster", "--controller-manager", "/" + prefix + "/controller_manager", "--unload-on-kill"],
     )
 
-    # imu sensor broadcaster
-    imu_sensor_broadcaster_spawner = Node(
+    # Imu Broadcaster
+    imu_broadcaster = Node(
         package="controller_manager",
         executable="spawner",
-        namespace=namespace,
-        arguments=["imu_sensor_broadcaster", "--controller-manager", "/" + context.perform_substitution(namespace) + "/controller_manager"],
+        namespace=prefix,
+        arguments=["imu_broadcaster", "--controller-manager", "/" + prefix + "/controller_manager", "--unload-on-kill"],
     )
 
-    # State estimator
-    state_estimator_spawner = Node(
+    # Tail Broadcaster
+    tail_broadcaster = Node(
         package="controller_manager",
         executable="spawner",
-        namespace=namespace,
-        arguments=["state_estimator", "--controller-manager", "/" + context.perform_substitution(namespace) + "/controller_manager"],
+        namespace=prefix,
+        arguments=["tail_broadcaster", "--controller-manager", "/" + prefix + "/controller_manager", "--unload-on-kill"],
     )
 
-    # Echosounder controller
-    echosounder_controller_spawner = Node(
+    # Riptide controller
+    tail_broadcaster = Node(
         package="controller_manager",
         executable="spawner",
-        namespace=namespace,
-        arguments=["echosounder_controller", "--controller-manager", "/" + context.perform_substitution(namespace) + "/controller_manager"],
+        namespace=prefix,
+        arguments=["riptide_controller", "--controller-manager", "/" + prefix + "/controller_manager", "--unload-on-kill"],
     )
 
-    return [riptide_spawner, control_node, riptide_controller_spawner, imu_sensor_broadcaster_spawner, state_estimator_spawner, echosounder_controller_spawner]
+    return [riptide_spawner, control_node, pressure_broadcaster, imu_broadcaster, tail_broadcaster]
 
 
 def generate_launch_description():
@@ -111,21 +114,21 @@ def generate_launch_description():
     ld.add_action(
         DeclareLaunchArgument(
             "controllers_file",
-            default_value="riptide_controllers.yaml",
+            default_value="controller_manager.yaml",
             description="YAML file with the controllers configuration."
         )
     )
     ld.add_action(
         DeclareLaunchArgument(
             "controllers_package",
-            default_value="riptide_bringup",
+            default_value="riptide_bringup_sim",
             description="Riptide controllers YAML file package."
         )
     )
     ld.add_action(
         DeclareLaunchArgument(
             "description_file",
-            default_value="riptide_simulation.urdf.xacro",
+            default_value="riptide.urdf.xacro",
             description="URDF riptide description for simulation."
         )
     )
