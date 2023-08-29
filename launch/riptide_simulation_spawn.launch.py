@@ -42,6 +42,7 @@ def riptide_spawner(context: LaunchContext):
 
     # Control node
     controller_config = PathJoinSubstitution([controllers_package, "config", controllers_file])
+
     control_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
@@ -75,14 +76,21 @@ def riptide_spawner(context: LaunchContext):
     )
 
     # Riptide controller
-    tail_broadcaster = Node(
+    riptide_controller = Node(
         package="controller_manager",
         executable="spawner",
         namespace=prefix,
         arguments=["riptide_controller", "--controller-manager", "/" + prefix + "/controller_manager", "--unload-on-kill"],
     )
 
-    return [riptide_spawner, control_node, pressure_broadcaster, imu_broadcaster, tail_broadcaster]
+    log_controller = Node(
+        package="controller_manager",
+        executable="spawner",
+        namespace=prefix,
+        arguments=["log_controller", "--controller-manager", "/" + prefix + "/controller_manager", "--unload-on-kill"],
+    )
+
+    return [riptide_spawner, control_node, pressure_broadcaster, imu_broadcaster, tail_broadcaster, riptide_controller]
 
 
 def generate_launch_description():

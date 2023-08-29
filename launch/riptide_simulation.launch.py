@@ -32,7 +32,6 @@ def rviz_simulation(context: LaunchContext, riptides):
     elif filename.split(".")[-1] == "j2":
         # Configuring jinja
         templateLoader = jinja2.FileSystemLoader(searchpath=path)
-        print(path)
         templateEnv = jinja2.Environment(loader=templateLoader)
         template = templateEnv.get_template(filename)
         rip = [{"name": r} for r in riptides]

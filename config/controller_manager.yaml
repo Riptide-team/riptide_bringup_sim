@@ -27,6 +27,9 @@ riptide_1:
       riptide_controller:
         type: riptide_controllers/RiptideController
 
+      log_controller:
+        type: riptide_controllers/LogController
+
 riptide_1:
   depth_controller:
     ros__parameters:
@@ -70,6 +73,15 @@ riptide_1:
       K_fin: .5
       r_fin: .2
 
+riptide_1:
+  log_controller:
+    ros__parameters:
+      linear_velocity_x_joint: riptide_controller/linear_velocity.x
+      angular_velocity_x_joint: riptide_controller/angular_velocity.x
+      angular_velocity_y_joint: riptide_controller/angular_velocity.y
+      angular_velocity_z_joint: riptide_controller/angular_velocity.z
+      imu_name: imu
+     
 riptide_1:
   imu_sensor_broadcaster:
     ros__parameters:
