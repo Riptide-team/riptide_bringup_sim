@@ -1,5 +1,6 @@
 controller_manager:
   ros__parameters:
+    use_sim_time: true
     update_rate: 1000  # Hz
 
     joint_state_broadcaster:
@@ -8,12 +9,14 @@ controller_manager:
     imu_sensor_broadcaster:
       type: imu_sensor_broadcaster/IMUSensorBroadcaster
 
+    immersion_controller:
+      type: riptide_controllers/ImmersionController
+
     riptide_controller:
       type: riptide_controllers/RiptideController
 
-joint_state_broadcaster:
-  ros__parameters:
-    use_sim_time: true
+    log_controller:
+      type: riptide_controllers/LogController
 
 imu_sensor_broadcaster:
   ros__parameters:
@@ -22,8 +25,28 @@ imu_sensor_broadcaster:
 
 riptide_controller:
   ros__parameters:
-    imu_name: imu
-    thruster_joint: thruster
-    d_joint: d_fin
-    p_joint: p_fin
-    s_joint: s_fin
+    imu_name: imu_sensor
+    prefix: riptide_1
+    thruster_joint: thruster_joint
+    d_joint: d_joint
+    p_joint: p_joint
+    s_joint: s_joint
+
+log_controller:
+  ros__parameters:
+    prefix: riptide_1
+    linear_velocity_x_joint: riptide_controller/linear_velocity.x
+    angular_velocity_x_joint: riptide_controller/angular_velocity.x
+    angular_velocity_y_joint: riptide_controller/angular_velocity.y
+    angular_velocity_z_joint: riptide_controller/angular_velocity.z
+    imu_name: imu_sensor
+
+immersion_controller:
+  ros__parameters:
+    prefix: riptide_1
+    thruster_joint: thruster_joint
+    d_joint: d_joint
+    p_joint: p_joint
+    s_joint: s_joint
+    phase_1_duration: 1.
+    phase_2_duration: 1.

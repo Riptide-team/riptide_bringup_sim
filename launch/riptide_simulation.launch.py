@@ -84,11 +84,36 @@ def generate_launch_description():
         output='screen',
     )
 
+    # riptide_controller
+    load_riptide_controller = Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['riptide_controller'],
+        output='screen',
+    )
+
+    # riptide_controller
+    load_immersion_controller = Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['immersion_controller'],
+        output='screen',
+    )
+
     ld.add_action(
         RegisterEventHandler(
             event_handler=OnProcessExit(
                 target_action=spawn_entity,
                 on_exit=[load_joint_state_broadcaster],
+            )
+        )
+    )
+
+    ld.add_action(
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
+                target_action=spawn_entity,
+                on_exit=[load_immersion_controller],
             )
         )
     )
