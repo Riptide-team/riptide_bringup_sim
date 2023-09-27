@@ -76,46 +76,40 @@ def generate_launch_description():
         )
     )
 
-    # Joint_state_broadcaster
-    load_joint_state_broadcaster = Node(
-        package='controller_manager',
-        executable='spawner',
-        arguments=['joint_state_broadcaster'],
-        output='screen',
-    )
-
-    # riptide_controller
-    load_riptide_controller = Node(
-        package='controller_manager',
-        executable='spawner',
-        arguments=['riptide_controller'],
-        output='screen',
-    )
-
-    # riptide_controller
-    load_immersion_controller = Node(
-        package='controller_manager',
-        executable='spawner',
-        arguments=['immersion_controller'],
-        output='screen',
-    )
-
+    # immersion_controller
     ld.add_action(
-        RegisterEventHandler(
-            event_handler=OnProcessExit(
-                target_action=spawn_entity,
-                on_exit=[load_joint_state_broadcaster],
-            )
-        )
-    )
-
-    ld.add_action(
-        RegisterEventHandler(
-            event_handler=OnProcessExit(
-                target_action=spawn_entity,
-                on_exit=[load_immersion_controller],
-            )
+        Node(
+            package="controller_manager",
+            executable="spawner",
+            arguments=["immersion_controller", "--inactive", "--unload-on-kill"],
         )
     )
     
+    # riptide_controller
+    ld.add_action(
+        Node(
+            package="controller_manager",
+            executable="spawner",
+            arguments=["riptide_controller", "--inactive", "--unload-on-kill"],
+        )
+    )
+
+    # log_controller
+    ld.add_action(
+        Node(
+            package="controller_manager",
+            executable="spawner",
+            arguments=["log_controller", "--inactive", "--unload-on-kill"],
+        )
+    )
+
+    # depth_controller
+    ld.add_action(
+        Node(
+            package="controller_manager",
+            executable="spawner",
+            arguments=["depth_controller", "--inactive", "--unload-on-kill"],
+        )
+    )
+
     return ld

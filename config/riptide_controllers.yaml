@@ -9,6 +9,12 @@ controller_manager:
     imu_sensor_broadcaster:
       type: imu_sensor_broadcaster/IMUSensorBroadcaster
 
+    pressure_broadcaster:
+      type: riptide_broadcasters/PressureBroadcaster
+
+    tail_broadcaster:
+      type: riptide_broadcasters/TailBroadcaster
+
     immersion_controller:
       type: riptide_controllers/ImmersionController
 
@@ -17,11 +23,28 @@ controller_manager:
 
     log_controller:
       type: riptide_controllers/LogController
+    
+    depth_controller:
+      type: riptide_controllers/DepthController
+
+pressure_broadcaster:
+  ros__parameters:
+    prefix: riptide_1
+    sensor_name: pressure
+
+tail_broadcaster:
+  ros__parameters:
+    prefix: riptide_1
+    thruster_joint: thruster_joint
+    d_joint: d_joint
+    p_joint: p_joint
+    s_joint: s_joint
+    rc_name: rc
 
 imu_sensor_broadcaster:
   ros__parameters:
-    sensor_name: riptide_1_imu_sensor
-    frame_id: riptide_1_imu
+    frame_id: riptide_1
+    sensor_name: riptide_1_imu
 
 riptide_controller:
   ros__parameters:
@@ -31,6 +54,8 @@ riptide_controller:
     d_joint: d_joint
     p_joint: p_joint
     s_joint: s_joint
+    K_fin: .2
+    r_fin: .025
 
 log_controller:
   ros__parameters:
@@ -48,7 +73,18 @@ immersion_controller:
     d_joint: d_joint
     p_joint: p_joint
     s_joint: s_joint
-    phase_1_duration: 1.
-    phase_2_duration: 1.
-    velocity: 1.
-    fin_angle: 0.5
+    thruster_velocity: 350.
+    fin_angle: 0.4
+    phase_1_duration: 1.5
+    phase_2_duration: 6.
+
+depth_controller:
+  ros__parameters:
+    pressure_name: riptide_1_pressure_sensor
+    imu_name: riptide_1_imu_sensor
+    orientation_reference_joint: log_controller
+    K: 0.4
+    r: 1.
+    yaw: -1.4
+    roll: 0.
+    thruster_velocity: 200.
